@@ -1,10 +1,18 @@
+import { nanoid } from "nanoid"
+
 class Item {
-	constructor(title, category, dueDate, priority) {
+	constructor(
+		title,
+		category = "Miscellaneous",
+		dueDate = "Today",
+		priority = 1
+	) {
 		this.title = title;
 		this.category = category;
 		this.dueDate = dueDate;
 		this.priority = priority;
 		this.done = false;
+		this.uid = nanoid();
 	}
 
 	toggleDone() {

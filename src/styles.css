@@ -2,10 +2,7 @@
 	padding: 0px;
 	margin: 0px;
 	box-sizing: border-box;
-}
-
-body {
-	padding: 16px;
+	font-family: Inconsolata;
 }
 
 .bar {
@@ -14,7 +11,7 @@ body {
 
 .todo-item {
 	display: grid;
-	grid-template: 1fr 1fr / 20px 12px 4fr 3fr;
+	grid-template: 1fr 1fr / 20px 12px 4fr 140px 40px;
 	width: 100%;
 	padding: 4px;
 }
@@ -37,7 +34,7 @@ div[class*=' title'], div[class^='title'] {
 }
 
 .title1 {
-	color: red;
+	color: forestgreen;
 }
 
 .title2 {
@@ -45,11 +42,12 @@ div[class*=' title'], div[class^='title'] {
 }
 
 .title3 {
-	color: lime;
+	color: red;
 }
 
 /* gets all items with a class starting with circle */
-div[class*=' circle'], div[class^='circle'] {
+div[class*=' circle'],
+div[class^='circle'] {
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
@@ -62,13 +60,74 @@ div[class*=' circle'], div[class^='circle'] {
 
 .project > .title {
 	font-size: 1.5rem;
+	margin: 8px;
 }
 
-div[class*=' circle'].finished, div[class^='circle'].finished {
+.finished div[class*=' circle'],
+.finished div[class^='circle'] {
 	background: rgba(30, 144, 255, 0.8);
 }
 
-div[class*=' circle'].unfinished:hover,
-div[class^='circle'].unfinished:hover {
+.finished {
+	opacity: 0.5;
+}
+
+.unfinished div[class*=' circle']:hover,
+.unfinished div[class^='circle']:hover {
 	background: rgba(30, 144, 255, 0.8);
+}
+
+.bin > img {
+	width: 40px;
+}
+
+.bin {
+	grid-column: 5 / 6;
+	grid-row: 1 / 3;
+	display: flex;
+	align-items: flex-end;
+}
+
+#content {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template: 100px 1fr / 230px 1fr;
+}
+
+#nav {
+	grid-column: 1 / 3;
+	grid-row: 1 / 2;
+	background: #0ea5e9;
+	display: flex;
+	align-items: center;
+}
+
+#nav > h1 {
+	font-size: 3rem;
+	margin: 16px;
+}
+
+#sidebar {
+	background: #e2e8f0;
+	text-align: center;
+}
+
+#sidebar > h2 {
+	margin: 8px 0;
+}
+
+.project-title {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 8px;
+}
+
+.project-title:hover {
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 2px;
+}
+
+.project-title > img {
+	width: 25px;
 }
