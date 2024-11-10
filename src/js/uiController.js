@@ -14,13 +14,17 @@ class UIController {
 	}
 
 	displayMain() {
+		const container = document.querySelector("#project-view");
+		while (container.firstChild) {
+			container.removeChild(container.firstChild);
+		}
+
 		if (!this.selectedProject) {
 			this.selectedProject = this.projects.find(
 				project => project.title === "Today"
 			);
 		}
 
-		const container = document.querySelector("#project-view");
 		displayProject(this.selectedProject, container);
 	}
 
@@ -39,6 +43,15 @@ class UIController {
 
 			const cross = document.createElement("img");
 			cross.src = crossSVG;
+			cross.addEventListener("click", () => {
+				sidebar.dispatchEvent(
+					new CustomEvent("removeProject", {
+						detail: project.uid,
+						bubbles: true,
+					}));
+
+				parent.removeChild(container);
+			});
 
 			container.appendChild(text);
 			container.appendChild(cross);
@@ -49,9 +62,21 @@ class UIController {
 				parent.appendChild(container);
 			}
 		}
+
+		sidebar.addEventListener("removeProject", (e) => {
+			let id = e.detail;
+			this.projects = this.projects.filter(p => p.uid != id);
+			if (this.selectedProject.uid === id) {
+				this.selectedProject == null;
+			}
+			console.log(this.projects);
+			console.log(this.selectedProject);
+
+			this.display();
+		});
 	}
 
-	addProject(project) {
+	addProjectDOM(project) {
 		this.projects.push(project);
 		this.display();
 	}
@@ -61,6 +86,7 @@ function displayTodoItem(item, parent) {
 	const container = document.createElement("div");
 	container.classList.add("todo-item");
 	container.classList.add("unfinished");
+	container.id = item.uid;
 
 	const completeCircle = document.createElement("div");
 	completeCircle.classList.add("circle" + item.priority);
@@ -101,7 +127,10 @@ function displayTodoItem(item, parent) {
 
 	imgContainer.addEventListener("click", () => {
 		parent.dispatchEvent(
-			new CustomEvent("removedTodoItem", { bubbles: true, })
+			new CustomEvent("removedTodoItem", {
+				bubbles: true,
+				detail: item.uid,
+			})
 		)
 	})
 
@@ -112,6 +141,7 @@ function displayTodoItem(item, parent) {
 function displayProject(project, parent) {
 	const container = document.createElement("div");
 	container.classList.add("project");
+	container.id = project.uid;
 
 	const title = document.createElement("div");
 	title.classList.add("title");
@@ -131,8 +161,10 @@ function displayProject(project, parent) {
 		itemContainer.appendChild(bar);
 
 		container.appendChild(itemContainer);
-		itemContainer.addEventListener("removedTodoItem", () => {
+		itemContainer.addEventListener("removedTodoItem", (e) => {
+			let id = e.detail;
 			container.removeChild(itemContainer);
+			project.removeTask(id);
 		});
 	}
 

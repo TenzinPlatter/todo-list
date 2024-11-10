@@ -13,8 +13,8 @@ function getCurrentDate(offset = 0) {
 	return `${day}-${month}`;
 }
 
-const display = new UIController();
 
+const display = new UIController();
 const daily = new Project("Today");
 const projectContainer = document.createElement("div");
 
@@ -23,7 +23,7 @@ for (let i = 1; i < 4; i++) {
 	daily.addItem(item);
 }
 
-display.addProject(daily, projectContainer);
+display.addProjectDOM(daily, projectContainer);
 
 onbeforeunload = (event) => {
 	// will be called when tab is closed
