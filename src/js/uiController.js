@@ -20,19 +20,25 @@ class UIController {
 		}
 
 		if (!this.selectedProject) {
+			// tries to select daily
 			this.selectedProject = this.projects.find(
 				project => project.title === "Today"
 			);
 		}
 
-		displayProject(this.selectedProject, container);
+		// if still not none, i.e. daily project has been deleted then displays
+		if (this.selectedProject) {
+			displayProject(this.selectedProject, container);
+		} else {
+			displayAddProjectMessage();
+		}
 	}
 
 	displaySidebar() {
 		const sidebar = document.querySelector("#sidebar");
 		const parent = document.createElement("div");
-		parent.classList.add("project-titles");
-		sidebar.appendChild(parent);
+		const projectTitles = document.querySelector(".project-titles");
+		projectTitles.appendChild(parent);
 
 		for (const project of this.projects) {
 			const container = document.createElement("div");
@@ -56,10 +62,10 @@ class UIController {
 			container.appendChild(text);
 			container.appendChild(cross);
 
-			if (project.name === "Today") {
+			if (project.title === "Today") {
 				parent.insertBefore(container, parent.firstChild);
 			} else {
-				parent.appendChild(container);
+				parent.insertBefore(container, parent.lastChild);
 			}
 		}
 
@@ -67,10 +73,8 @@ class UIController {
 			let id = e.detail;
 			this.projects = this.projects.filter(p => p.uid != id);
 			if (this.selectedProject.uid === id) {
-				this.selectedProject == null;
+				this.selectedProject = null;
 			}
-			console.log(this.projects);
-			console.log(this.selectedProject);
 
 			this.display();
 		});
@@ -168,8 +172,43 @@ function displayProject(project, parent) {
 		});
 	}
 
+	if (project.items.length == 0) {
+		displayAddItemsMessage(container);
+	}
+
 	parent.appendChild(container);
 	return container;
+}
+
+function displayAddProjectMessage() {
+	const mainView = document.querySelector("#project-view")
+	const container = document.createElement("div");
+	const top = document.createElement("h1");
+	const bottom = document.createElement("h1");
+
+	top.textContent = "No projects yet...";
+	bottom.textContent = "Try adding one!";
+
+	top.classList.add("new-project-text");
+	bottom.classList.add("new-project-text");
+
+	container.appendChild(top);
+	container.appendChild(bottom);
+	mainView.appendChild(container);
+}
+
+function displayAddItemsMessage(container) {
+	const top = document.createElement("h1");
+	const bottom = document.createElement("h1");
+
+	top.textContent = "No items yet...";
+	bottom.textContent = "Try adding one!";
+
+	top.classList.add("new-items-text");
+	bottom.classList.add("new-items-text");
+
+	container.appendChild(top);
+	container.appendChild(bottom);
 }
 
 export default UIController;

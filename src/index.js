@@ -1,6 +1,6 @@
-import Item from "./js/item";
 import Project from "./js/project";
 import UIController from "./js/uiController";
+import storageController from "./js/storage";
 import "./styles.css";
 
 function getCurrentDate(offset = 0) {
@@ -13,17 +13,19 @@ function getCurrentDate(offset = 0) {
 	return `${day}-${month}`;
 }
 
-
 const display = new UIController();
-const daily = new Project("Today");
-const projectContainer = document.createElement("div");
+const storage = new storageController();
+let projects;
 
-for (let i = 1; i < 4; i++) {
-	let item = new Item("Hello", "category", getCurrentDate(i - 1), i);
-	daily.addItem(item);
+if (storage.available) {
+	projects = storage.getStoredProjects();
+} else {
+	projects = [new Project("Today")];
 }
 
-display.addProjectDOM(daily, projectContainer);
+for (const project of projects) {
+	display.addProjectDOM(project);
+}
 
 onbeforeunload = (event) => {
 	// will be called when tab is closed

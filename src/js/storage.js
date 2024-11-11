@@ -1,3 +1,7 @@
+import Project from "./project";
+import Item from "./item";
+import { getCurrentDate } from "../index";
+
 function storageAvailable(type) {
   let storage;
   try {
@@ -10,21 +14,38 @@ function storageAvailable(type) {
     return (
       e instanceof DOMException &&
       e.name === "QuotaExceededError" &&
-      // acknowledge QuotaExceededError only if there's something already stored
-      storage &&
       storage.length !== 0
     );
   }
 }
 
-let storedProjects = null;
+class storageController {
+	constructor(storageType = "localStorage") {
+		this.storedProjects = [];
+		this.available = storageAvailable(storageType);
+	}
 
-if (storageAvailable("localStorage")) {
-	storedProjects = localStorage.getItem("storedProjects");
-}
+	storageInit() {
+		let canUseStorage =  storageAvailable("localStorage");
 
-if (storedProjects) {
-	for (const project of storedProjects) {
-		display.addProject(project);
+		if (canUseStorage) {
+			storedProjects = localStorage.getItem("storedProjects");
+		}
+
+		return canUseStorage;
+	}
+
+	getStoredProjects() {
+		const daily = new Project("Today");
+		for (let i = 1; i < 4; i++) {
+			let item = new Item("Hello", "category", getCurrentDate(i - 1), i);
+			daily.addItem(item);
+		}
+
+		this.storedProjects.push(daily);
+
+		return this.storedProjects;
 	}
 }
+
+export default storageController;
