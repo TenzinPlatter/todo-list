@@ -12,9 +12,7 @@
 		<div id="content">
 			<div id="sidebar">
 				<h2>Your Projects</h2>
-
 				<div class="project-titles"></div>
-
 				<button type="button">Add Project</button>
 			</div>
 
@@ -22,7 +20,27 @@
 				<h1>Your Todo's</h1>
 			</div>
 
-			<div id="project-view"></div>
+			<div id="project-view">
+			</div>
+
+			<dialog class="add-project">
+				<div class="close-button-container">
+				</div>
+
+				<form method="dialog">
+					<div>
+						<label for="title">Project name</label>
+						<input type="text" id="title" name="title" autofocus required>
+					</div>
+
+					<div>
+						<label for="title">Project name</label>
+						<input type="text" id="title" name="title" autofocus required>
+					</div>
+				</form>
+
+			</dialog>
+
 		</div>
 
 	</body>

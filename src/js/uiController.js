@@ -2,10 +2,15 @@ import binSVG from "../assets/bin.svg";
 import crossSVG from "../assets/cross.svg";
 import { getCurrentDate } from "../index";
 
-class UIController {
+class ViewController {
 	constructor() {
 		this.projects = [];
 		this.selectedProject = null;
+		this.display();
+	}
+
+	displayNewProjectWindow() {
+		console.log(this.projects);
 	}
 
 	display() {
@@ -72,7 +77,7 @@ class UIController {
 		sidebar.addEventListener("removeProject", (e) => {
 			let id = e.detail;
 			this.projects = this.projects.filter(p => p.uid != id);
-			if (this.selectedProject.uid === id) {
+			if (this.selectedProject && this.selectedProject.uid === id) {
 				this.selectedProject = null;
 			}
 
@@ -131,7 +136,7 @@ function displayTodoItem(item, parent) {
 
 	imgContainer.addEventListener("click", () => {
 		parent.dispatchEvent(
-			new CustomEvent("removedTodoItem", {
+			new CustomEvent("removeTodoItem", {
 				bubbles: true,
 				detail: item.uid,
 			})
@@ -165,10 +170,13 @@ function displayProject(project, parent) {
 		itemContainer.appendChild(bar);
 
 		container.appendChild(itemContainer);
-		itemContainer.addEventListener("removedTodoItem", (e) => {
+		itemContainer.addEventListener("removeTodoItem", (e) => {
 			let id = e.detail;
 			container.removeChild(itemContainer);
 			project.removeTask(id);
+			if (project.items.length == 0) {
+				displayAddItemsMessage(container);
+			}
 		});
 	}
 
@@ -198,8 +206,12 @@ function displayAddProjectMessage() {
 }
 
 function displayAddItemsMessage(container) {
+	const outer = document.createElement("div");
 	const top = document.createElement("h1");
 	const bottom = document.createElement("h1");
+
+	// needs this but not necessary in project version
+	outer.classList.add("new-items-text-container");
 
 	top.textContent = "No items yet...";
 	bottom.textContent = "Try adding one!";
@@ -207,8 +219,9 @@ function displayAddItemsMessage(container) {
 	top.classList.add("new-items-text");
 	bottom.classList.add("new-items-text");
 
-	container.appendChild(top);
-	container.appendChild(bottom);
+	outer.appendChild(top);
+	outer.appendChild(bottom);
+	container.appendChild(outer);
 }
 
-export default UIController;
+export default ViewController;

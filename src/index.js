@@ -1,6 +1,7 @@
 import Project from "./js/project";
-import UIController from "./js/uiController";
+import ViewController from "./js/uiController";
 import storageController from "./js/storage";
+import { interactionInit } from "./js/interactionController";
 import "./styles.css";
 
 function getCurrentDate(offset = 0) {
@@ -13,8 +14,11 @@ function getCurrentDate(offset = 0) {
 	return `${day}-${month}`;
 }
 
-const display = new UIController();
+//NOTE: Start
+
+const display = new ViewController();
 const storage = new storageController();
+interactionInit(display);
 let projects;
 
 if (storage.available) {

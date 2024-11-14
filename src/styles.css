@@ -118,7 +118,7 @@ div[class^='circle'] {
 }
 
 #sidebar > h2 {
-	margin: 8px 0;
+	margin: 16px 0;
 }
 
 .project-title {
@@ -137,18 +137,37 @@ div[class^='circle'] {
 	width: 25px;
 }
 
-.new-project-text {
+.new-project-text,
+.new-items-text {
 	color: grey;
 	font-size: 3rem;
 }
 
-div:has(.new-project-text) {
+div:has(.new-project-text),
+.new-items-text-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
+.new-items-text-container {
+	margin-top: 200px
+}
+
 #sidebar > button {
-	margin-top: auto;
+	margin-top: 32px;
+	background: #e2e8f0;
+	width: 90%;
+	height: 32px;
+	font-size: 18px;
+	margin-left: auto;
+	margin-right: auto;
+	border: none;
+	outline: none;
+}
+
+#sidebar > button:hover {
+	box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2),
+	-10px -10px 10px #ebeff4;
 }
