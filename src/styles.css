@@ -5,7 +5,9 @@
 	font-family: Inconsolata;
 }
 
-.bar {
+body {
+	background: #f9f9f9;
+} .bar {
 	border-top: 1px solid #1F2937;
 }
 
@@ -58,8 +60,35 @@ div[class^='circle'] {
 	margin-bottom: auto;
 }
 
-.project > .title {
+.project > .header > .title {
 	font-size: 1.5rem;
+	margin: 8px;
+}
+
+.project > .header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.project > .header > button {
+	width: 150px;
+	background: #f9f9f9;
+	border: none;
+	outline: none;
+	margin: 6px;
+	font-size: 16px;
+}
+
+.project > .header > button:hover {
+	box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2),
+	-10px -10px 10px white;
+}
+
+.project > .header > button:active {
+	box-shadow: none;
+}
+
+.project > .header > * {
 	margin: 8px;
 }
 
@@ -109,12 +138,21 @@ div[class^='circle'] {
 	margin: 16px;
 }
 
+#project-view {
+	overflow-y: scroll;
+}
+
+#project-view,
 #sidebar {
-	background: #e2e8f0;
+	background: #f9f9f9;
+}
+
+#sidebar {
 	text-align: center;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	border-right: 1px solid black;
 }
 
 #sidebar > h2 {
@@ -130,11 +168,26 @@ div[class^='circle'] {
 
 .project-title:hover {
 	background: rgba(0, 0, 0, 0.2);
-	border-radius: 2px;
 }
 
 .project-title > img {
 	width: 25px;
+}
+
+.project-title > p {
+	flex: 1;
+	text-align: left;
+}
+
+#sidebar > .project-titles {
+	min-height: 20%;
+	/* viewport height - other things in sidebar, means it will become scrollable
+	 * when the add project button reaches bottom of screen
+	 * math: 100vh - (yourprojects + margin) - (addproject + margin) - headerheight */
+	max-height: calc(100vh - 58px - 64px - 100px);
+	height: auto;
+	overflow: auto;
+	overflow-y: scroll;
 }
 
 .new-project-text,
@@ -157,8 +210,8 @@ div:has(.new-project-text),
 
 #sidebar > button {
 	margin-top: 32px;
-	background: #e2e8f0;
-	width: 90%;
+	background: #f9f9f9;
+	width: 100%;
 	height: 32px;
 	font-size: 18px;
 	margin-left: auto;
@@ -169,5 +222,64 @@ div:has(.new-project-text),
 
 #sidebar > button:hover {
 	box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2),
-	-10px -10px 10px #ebeff4;
+	-10px -10px 10px white;
+}
+
+#sidebar > button:active {
+	box-shadow: none;
+}
+
+dialog.add-project {
+	all: revert;
+	width: 300px;
+	height: 200px;
+}
+
+dialog.add-todo {
+	all: revert;
+	width: 300px;
+	height: 400px;
+}
+
+dialog.add-project > form > div.input {
+	margin: 32px 0;
+}
+
+dialog > form {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+dialog > .close-button-container > p {
+	font-size: 1.3rem;
+}
+
+dialog > .close-button-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 6px;
+}
+
+dialog > form > div.input {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+dialog > .close-button-container > img {
+	width: 25px;
+}
+
+.radio-todo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.radio-todo-container {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 16px;
 }

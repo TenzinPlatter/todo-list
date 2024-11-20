@@ -25,18 +25,63 @@
 
 			<dialog class="add-project">
 				<div class="close-button-container">
+					<p>Add a project:</p>
+					<img src="./assets/cross.svg" alt="">
 				</div>
 
 				<form method="dialog">
-					<div>
-						<label for="title">Project name</label>
-						<input type="text" id="title" name="title" autofocus required>
+					<div class="input">
+						<label for="title">Project name:</label>
+						<input type="text" id="title-project" name="title" autofocus required>
+					</div>
+					<button id="submit-project" type="submit">Add</button>
+				</form>
+
+			</dialog>
+
+			<dialog class="add-todo">
+				<div class="close-button-container">
+					<p>Add an item:</p>
+					<img src="./assets/cross.svg" alt="">
+				</div>
+
+				<form method="dialog">
+					<div class="input">
+						<label for="title">Name:</label>
+						<input type="text" id="title-todo" name="title" autofocus required>
 					</div>
 
-					<div>
-						<label for="title">Project name</label>
-						<input type="text" id="title" name="title" autofocus required>
+					<div class="input">
+						<label for="category">Category:</label>
+						<input type="text" value="Miscellaneous" id="category-todo" name="category" required>
 					</div>
+
+					<div class="input">
+						<label for="date">Due Date:</label>
+						<input type="text" id="date-todo" name="date" required>
+					</div>
+
+					<div class="input">
+						<p>To be done:</p>
+
+						<div class="radio-todo-container">
+							<div class="radio-todo">
+								<input type="radio" id="now" name="priority" value="now" required>
+								<label for="now">Now</label>
+							</div>
+							<div class="radio-todo">
+								<input type="radio" id="next" name="priority" value="next" required>
+								<label for="next">Next</label>
+							</div>
+							<div class="radio-todo">
+								<input type="radio" id="later" name="priority" value="later" required>
+								<label for="later">Later</label>
+							</div>
+						</div>
+
+					</div>
+
+					<button id="submit-todo" type="submit">Add</button>
 				</form>
 
 			</dialog>

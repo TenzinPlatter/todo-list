@@ -19,7 +19,7 @@ function storageAvailable(type) {
   }
 }
 
-class storageController {
+class StorageController {
 	constructor(storageType = "localStorage") {
 		this.storedProjects = [];
 		this.available = storageAvailable(storageType);
@@ -38,14 +38,17 @@ class storageController {
 	getStoredProjects() {
 		const daily = new Project("Today");
 		for (let i = 1; i < 4; i++) {
-			let item = new Item("Hello", "category", getCurrentDate(i - 1), i);
+			let item = new Item("Hello", "Miscellaneous", getCurrentDate(i - 1), i);
 			daily.addItem(item);
 		}
 
+		const second = new Project("Second");
+
 		this.storedProjects.push(daily);
+		this.storedProjects.push(second);
 
 		return this.storedProjects;
 	}
 }
 
-export default storageController;
+export default StorageController;

@@ -1,16 +1,13 @@
 import binSVG from "../assets/bin.svg";
 import crossSVG from "../assets/cross.svg";
 import { getCurrentDate } from "../index";
+import { currentDateForHtml } from "../index";
 
 class ViewController {
 	constructor() {
 		this.projects = [];
 		this.selectedProject = null;
 		this.display();
-	}
-
-	displayNewProjectWindow() {
-		console.log(this.projects);
 	}
 
 	display() {
@@ -43,6 +40,7 @@ class ViewController {
 		const sidebar = document.querySelector("#sidebar");
 		const parent = document.createElement("div");
 		const projectTitles = document.querySelector(".project-titles");
+		removeChildren(projectTitles); // clear any titles there from last render
 		projectTitles.appendChild(parent);
 
 		for (const project of this.projects) {
@@ -51,6 +49,10 @@ class ViewController {
 
 			const text = document.createElement("p");
 			text.textContent = project.title;
+			text.addEventListener("click", () => {
+				this.selectedProject = project;
+				this.display();
+			});
 
 			const cross = document.createElement("img");
 			cross.src = crossSVG;
@@ -67,10 +69,12 @@ class ViewController {
 			container.appendChild(text);
 			container.appendChild(cross);
 
+
 			if (project.title === "Today") {
 				parent.insertBefore(container, parent.firstChild);
 			} else {
-				parent.insertBefore(container, parent.lastChild);
+				// parent.insertBefore(container, parent.lastChild);
+				parent.appendChild(container);
 			}
 		}
 
@@ -83,6 +87,10 @@ class ViewController {
 
 			this.display();
 		});
+	}
+
+	addTodoToCurrentProject(item) {
+		this.selectedProject.addItem(item);
 	}
 
 	addProjectDOM(project) {
@@ -152,10 +160,25 @@ function displayProject(project, parent) {
 	container.classList.add("project");
 	container.id = project.uid;
 
+	const header = document.createElement("div");
+	header.classList.add("header");
+
 	const title = document.createElement("div");
 	title.classList.add("title");
 	title.textContent = project.title;
-	container.appendChild(title);
+
+	const addItemBtn = document.createElement("button");
+	const addTodo = document.querySelector("dialog.add-todo");
+	addItemBtn.textContent = "Add Todo";
+	const dateInputTodo = document.querySelector("#date-todo");
+	addItemBtn.addEventListener("click", () => {
+		addTodo.showModal();
+		dateInputTodo.value = currentDateForHtml();
+	})
+
+	header.appendChild(title);
+	header.appendChild(addItemBtn);
+	container.appendChild(header);
 
 	const startBar = document.createElement("div");
 	startBar.classList.add("bar");
@@ -222,6 +245,12 @@ function displayAddItemsMessage(container) {
 	outer.appendChild(top);
 	outer.appendChild(bottom);
 	container.appendChild(outer);
+}
+
+function removeChildren(container) {
+	while (container.firstChild) {
+		container.removeChild(container.lastChild);
+	}
 }
 
 export default ViewController;

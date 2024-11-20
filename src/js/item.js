@@ -1,12 +1,7 @@
 import { nanoid } from "nanoid"
 
 class Item {
-	constructor(
-		title,
-		category = "Miscellaneous",
-		dueDate = "Today",
-		priority = 1
-	) {
+	constructor(title, category, dueDate, priority) {
 		this.title = title;
 		this.category = category;
 		this.dueDate = dueDate;
