@@ -10,6 +10,19 @@ class ViewController {
 		this.display();
 	}
 
+	storeProjects() {
+		let res = [];
+		for (const project of this.projects) {
+			res.push({id: project.uid, project: JSON.stringify(project)});
+		}
+		console.log(res);
+	}
+
+	selectProject(project) {
+		this.selectedProject = project;
+		this.display();
+	}
+
 	display() {
 		this.displaySidebar();
 		this.displayMain();
@@ -68,7 +81,12 @@ class ViewController {
 
 			container.appendChild(text);
 			container.appendChild(cross);
-
+			container.addEventListener("click", (e) => {
+				if (!cross.contains(e.target)) {
+					this.selectedProject = project;
+					this.display();
+				}
+			});
 
 			if (project.title === "Today") {
 				parent.insertBefore(container, parent.firstChild);
@@ -91,6 +109,7 @@ class ViewController {
 
 	addTodoToCurrentProject(item) {
 		this.selectedProject.addItem(item);
+		this.display();
 	}
 
 	addProjectDOM(project) {

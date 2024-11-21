@@ -24,10 +24,28 @@ function currentDateForHtml() {
 	return `${year}-${month}-${day}`;
 }
 
+function htmlDateToShort(date) {
+	const newDate = new Date(date);
+	let month = newDate.getMonth() + 1;
+	let day = newDate.getDate();
+	return `${day}-${month}`;
+}
+
+function getPriorityFromHTMLRadio(data) {
+	if ("now" in data) {
+		return 3;
+	} else if ("later" in data) {
+		return 2;
+	} else {
+		return 1;
+	}
+}
+
+
+
 const display = new ViewController();
 const storage = new StorageController();
 let projects;
-
 
 // stuff for add project modal
 const addProject = document.querySelector("dialog.add-project")
@@ -40,37 +58,42 @@ closeProjectBtn.addEventListener("click", () => {
 	submitProjectForm.reset();
 	addProject.close()
 });
+
 submitProjectForm.addEventListener("submit", (e) => {
 	addProject.close();
 	e.preventDefault();
 	const formData = Object.fromEntries(new FormData(e.target));
 	e.target.reset();
 
-	display.addProjectDOM(new Project(formData.title));
+	const proj = new Project(formData.title);
+	display.addProjectDOM(proj);
+	if (display.selectedProject == null) {
+		display.selectProject(proj);
+	}
 })
 
 //NOTE: open button for addTodo is handled when it is created in UIController
 const addTodo = document.querySelector("dialog.add-todo");
 const closeTodoBtn = document.querySelector("dialog.add-todo img");
-const submitTodoForm = document.querySelector("dialog.add-todo > form");
+const todoForm = document.querySelector("dialog.add-todo > form");
 
 closeTodoBtn.addEventListener("click", () => {
 	addTodo.close()
-	submitTodoForm.reset();
+	todoForm.reset();
 });
 
-submitTodoForm.addEventListener("submit", (e) => {
+todoForm.addEventListener("submit", (e) => {
 	addTodo.close();
-	submitTodoForm.reset();
-
 	e.preventDefault();
-	const formData = Object.fromEntries(new FormData(e.target));
-	e.target.reset();
+	const data = Object.fromEntries(new FormData(e.target));
+	todoForm.reset();
+	console.log(data);
 
-	console.log(formData);
-	let date = e.date;
+	const dueDate = htmlDateToShort(data.date);
+	const priority = getPriorityFromHTMLRadio(data);
 
-	// display.addTodoToCurrentProject(new Item(e.title, e.category, date, priority));
+	const item = new Item(data.title, data.category, dueDate, priority);
+	display.addTodoToCurrentProject(item);
 });
 
 
@@ -83,5 +106,7 @@ if (storage.available) {
 for (const project of projects) {
 	display.addProjectDOM(project);
 }
+
+display.storeProjects();
 
 export { getCurrentDate, currentDateForHtml };
