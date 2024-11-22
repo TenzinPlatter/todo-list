@@ -21,33 +21,42 @@ function storageAvailable(type) {
 
 class StorageController {
 	constructor(storageType = "localStorage") {
-		this.storedProjects = [];
 		this.available = storageAvailable(storageType);
 	}
 
-	storageInit() {
-		let canUseStorage =  storageAvailable("localStorage");
-
-		if (canUseStorage) {
-			storedProjects = localStorage.getItem("storedProjects");
-		}
-
-		return canUseStorage;
-	}
-
 	getStoredProjects() {
-		const daily = new Project("Today");
-		for (let i = 1; i < 4; i++) {
-			let item = new Item("Hello", "Miscellaneous", getCurrentDate(i - 1), i);
-			daily.addItem(item);
+		let storedProjects = [];
+		if ("projects" in localStorage) {
+			const projects = JSON.parse(localStorage.getItem("projects"));
+			for (const project of projects) {
+				const projectObjPlain = JSON.parse(project.project);
+				let projectObj = new Project(projectObjPlain.title);
+				projectObj.uid = projectObjPlain.uid;
+				projectObj.creationDate = projectObj.creationDate;
+
+				for (const itemPlain of projectObjPlain.items) {
+					const todo = new Item(
+						itemPlain.title,
+						itemPlain.category,
+						itemPlain.dueDate,
+						itemPlain.priority,
+					);
+
+					todo.done = itemPlain.done;
+					todo.uid = itemPlain.uid;
+					projectObj.items.push(todo);
+				}
+
+				storedProjects.push(projectObj);
+			}
+			return storedProjects;
 		}
 
-		const second = new Project("Second");
-
-		this.storedProjects.push(daily);
-		this.storedProjects.push(second);
-
-		return this.storedProjects;
+		const daily = new Project("Today");
+		let item = new Item("Welcome!!!", "Greeting", getCurrentDate(), 1);
+		daily.addItem(item);
+		storedProjects.push(daily);
+		return storedProjects;
 	}
 }
 

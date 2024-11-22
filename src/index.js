@@ -10,8 +10,7 @@ function getCurrentDate(offset = 0) {
 
 	let month = date.getMonth() + 1;
 	let day = date.getDate();
-
-	return `${day}-${month}`;
+return `${day}-${month}`;
 }
 
 function currentDateForHtml() {
@@ -41,10 +40,13 @@ function getPriorityFromHTMLRadio(data) {
 	}
 }
 
-
-
-const display = new ViewController();
 const storage = new StorageController();
+let display;
+if (storage.available) {
+	display = new ViewController(storage.getStoredProjects());
+} else {
+	display = new ViewController([new Project("Today")]);
+}
 let projects;
 
 // stuff for add project modal
@@ -95,18 +97,5 @@ todoForm.addEventListener("submit", (e) => {
 	const item = new Item(data.title, data.category, dueDate, priority);
 	display.addTodoToCurrentProject(item);
 });
-
-
-if (storage.available) {
-	projects = storage.getStoredProjects();
-} else {
-	projects = [new Project("Today")];
-}
-
-for (const project of projects) {
-	display.addProjectDOM(project);
-}
-
-display.storeProjects();
 
 export { getCurrentDate, currentDateForHtml };

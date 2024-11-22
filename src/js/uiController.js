@@ -4,8 +4,8 @@ import { getCurrentDate } from "../index";
 import { currentDateForHtml } from "../index";
 
 class ViewController {
-	constructor() {
-		this.projects = [];
+	constructor(projects = []) {
+		this.projects = projects;
 		this.selectedProject = null;
 		this.display();
 	}
@@ -15,7 +15,7 @@ class ViewController {
 		for (const project of this.projects) {
 			res.push({id: project.uid, project: JSON.stringify(project)});
 		}
-		console.log(res);
+		localStorage.setItem("projects", JSON.stringify(res));
 	}
 
 	selectProject(project) {
@@ -26,6 +26,7 @@ class ViewController {
 	display() {
 		this.displaySidebar();
 		this.displayMain();
+		this.storeProjects();
 	}
 
 	displayMain() {
@@ -121,7 +122,11 @@ class ViewController {
 function displayTodoItem(item, parent) {
 	const container = document.createElement("div");
 	container.classList.add("todo-item");
-	container.classList.add("unfinished");
+	if (!item.done) {
+		container.classList.add("unfinished");
+	} else {
+		container.classList.add("finished");
+	}
 	container.id = item.uid;
 
 	const completeCircle = document.createElement("div");
