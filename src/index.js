@@ -3,6 +3,14 @@ import ViewController from "./js/uiController";
 import StorageController from "./js/storage";
 import "./styles.css";
 import Item from "./js/item";
+import crossSVG from "./assets/cross.svg";
+
+const locations = document.querySelectorAll(".close-button-container");
+for (const location of locations) {
+	const img = document.createElement("img");
+	img.src = crossSVG;
+	location.appendChild(img);
+}
 
 function getCurrentDate(offset = 0) {
 	const today = new Date();
