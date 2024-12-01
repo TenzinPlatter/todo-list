@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head> 
+		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+		</style>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Todo List</title>
+	<script defer src="main.js"></script></head>
+	<body>
+		<div id="content">
+			<div id="sidebar">
+				<h2>Your Projects</h2>
+				<div class="project-titles"></div>
+				<button type="button">Add Project</button>
+			</div>
+
+			<div id="nav">
+				<h1>Your Todo's</h1>
+			</div>
+
+			<div id="project-view">
+			</div>
+
+			<dialog class="add-project">
+				<div class="close-button-container">
+					<p>Add a project:</p>
+				</div>
+
+				<form method="dialog">
+					<div class="input">
+						<label for="title">Project name:</label>
+						<input type="text" id="title-project" name="title" autofocus required>
+					</div>
+					<button id="submit-project" type="submit">Add</button>
+				</form>
+
+			</dialog>
+
+			<dialog class="add-todo">
+				<div class="close-button-container">
+					<p>Add an item:</p>
+				</div>
+
+				<form method="dialog">
+					<div class="input">
+						<label for="title">Title:</label>
+						<input type="text" id="title-todo" name="title" autofocus required>
+					</div>
+
+					<div class="input">
+						<label for="category">Category:</label>
+						<input type="text" value="Miscellaneous" id="category-todo" name="category" required>
+					</div>
+
+					<div class="input">
+						<label for="date">Due Date:</label>
+						<input type="date" id="date-todo" name="date" required>
+					</div>
+
+					<div class="input">
+						<p>Priority:</p>
+
+						<div class="radio-todo-container">
+							<div class="radio-todo">
+								<label for="now">Now</label>
+								<input type="radio" value="now" name="now">
+							</div>
+
+							<div class="radio-todo">
+								<label for="next">Next</label>
+								<input type="radio" value="next" name="next">
+							</div>
+
+							<div class="radio-todo">
+								<label for="later">Later</label>
+								<input type="radio" value="later" name="later">
+							</div>
+						</div>
+					</div>
+
+					<button type="submit">Add</button>
+				</form>
+			</dialog>
+
+		</div>
+
+	</body>
+</html>
