@@ -17,7 +17,7 @@ fi
 
 git checkout gh-pages && git merge main --no-edit
 
-npx webpack
+npx webpack --config webpack/webpack.prod.js
 
 git add dist -f && git commit -m "Deployment commit"
 git subtree push --prefix dist origin gh-pages
